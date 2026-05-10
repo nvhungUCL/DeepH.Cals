@@ -59,11 +59,16 @@ kv = np.vstack(kv)
 nk = kv.shape[0]
 
 # --- Load Hamiltonians ---
-# Note: Ensure Hamiltonians.mat is in your working directory
-data = loadmat('Hamiltonians.mat')
-ijce = data['ijce'].astype(float)
-H0n = data['H0n'].squeeze() # squeeze handles MATLAB cell-to-array conversion
-S0n = data['S0n'].squeeze()
+## Note: Ensure Hamiltonians.mat is in your working directory
+#data = loadmat('Hamiltonians.mat')
+#ijce = data['ijce'].astype(float)
+#H0n = data['H0n'].squeeze() # squeeze handles MATLAB cell-to-array conversion
+#S0n = data['S0n'].squeeze()
+data = loadmat('Assembled_Hamiltonians.mat')
+H0n  = data['chunks']
+data = loadmat('Assembled_Overlaps.mat')
+S0n  = data['chunks']
+ijce = data['ijcell'].astype(float)
 
 Eb = []
 
@@ -81,11 +86,13 @@ for i in range(nk):
         phase = np.exp(1j * np.dot(R_vec, kt))
 
         # Convert to dense if they are sparse
-        h_matrix = H0n[idx]
-        s_matrix = S0n[idx]
+        #h_matrix = H0n[idx]
+        #s_matrix = S0n[idx]
+        h_matrix = H0n[:,:,idx]
+        s_matrix = S0n[:,:,idx]
 
-        if hasattr(h_matrix, "toarray"): h_matrix = h_matrix.toarray()
-        if hasattr(s_matrix, "toarray"): s_matrix = s_matrix.toarray()
+        #if hasattr(h_matrix, "toarray"): h_matrix = h_matrix.toarray()
+        #if hasattr(s_matrix, "toarray"): s_matrix = s_matrix.toarray()
 
         Hk += h_matrix * phase
         Sk += s_matrix * phase
