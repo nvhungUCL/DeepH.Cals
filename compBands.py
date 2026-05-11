@@ -8,7 +8,7 @@ from scipy.linalg import eigvals
 # --- Initial Parameters ---
 KPS = 200
 EF = 4.785239202
-outNAME = 'pBands_MoS2bilayer.mat'
+outNAME = 'Bands.mat'
 
 # Path Pk: Γ -> M -> K -> Γ
 Pk = np.array([
